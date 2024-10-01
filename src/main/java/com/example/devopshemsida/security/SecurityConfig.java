@@ -19,16 +19,16 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/css/**", "/login", "/register").permitAll() // Allow access to CSS files and login/register pages
-                                .anyRequest().authenticated() // All other requests require authentication
+                                .requestMatchers("/css/**", "/login", "/register").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/login") // Custom login page
-                                .permitAll() // Allow all users to see the login page
+                                .loginPage("/login")
+                                .permitAll()
                 )
                 .logout(logout ->
-                        logout.permitAll() // Allow all users to log out
+                        logout.permitAll()
                 );
 
         return http.build();
@@ -40,7 +40,7 @@ public class SecurityConfig {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
-                .inMemoryAuthentication() // In-memory authentication for simplicity; replace with your own user management logic
+                .inMemoryAuthentication()
                 .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
                 .and()
                 .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
@@ -50,6 +50,5 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Use BCrypt for password encoding
-    }
+        return new BCryptPasswordEncoder();
 }
